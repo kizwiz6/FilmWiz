@@ -11,4 +11,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" PrivateAssets="all" />
   </ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\FilmWiz.Core\FilmWiz.Core.csproj" />
+		<ProjectReference Include="..\FilmWiz.Infrastructure\FilmWiz.Infrastructure.csproj" />
+	</ItemGroup>
+
 </Project>
