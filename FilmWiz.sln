@@ -9,13 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmWiz.Core", "FilmWiz.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmWiz.Infrastructure", "FilmWiz.Infrastructure\FilmWiz.Infrastructure.csproj", "{233D4078-0D3B-45FE-8C3F-4A4493B1ACA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmWiz.Tests", "FilmWiz.Tests\FilmWiz.Tests.csproj", "{0BB5C390-937B-4890-BCF3-68F66C03F6F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B804AD88-2EED-4FCE-BA44-D4C8003E2FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +29,12 @@ Global
 		{233D4078-0D3B-45FE-8C3F-4A4493B1ACA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{233D4078-0D3B-45FE-8C3F-4A4493B1ACA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{233D4078-0D3B-45FE-8C3F-4A4493B1ACA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BB5C390-937B-4890-BCF3-68F66C03F6F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB5C390-937B-4890-BCF3-68F66C03F6F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB5C390-937B-4890-BCF3-68F66C03F6F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB5C390-937B-4890-BCF3-68F66C03F6F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
