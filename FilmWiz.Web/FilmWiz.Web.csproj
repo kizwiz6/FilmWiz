@@ -9,6 +9,17 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" PrivateAssets="all" />
+	  <PackageReference Include="MudBlazor" Version="8.1.0" />
   </ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\FilmWiz.Core\FilmWiz.Core.csproj" />
+		<ProjectReference Include="..\FilmWiz.Infrastructure\FilmWiz.Infrastructure.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="wwwroot\appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 </Project>

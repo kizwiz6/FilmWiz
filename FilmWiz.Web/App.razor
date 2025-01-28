@@ -1,12 +1,35 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
+﻿<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<ErrorBoundary>
+    <ChildContent>
+        <Router AppAssembly="@typeof(App).Assembly">
+            <Found Context="routeData">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            </Found>
+            <NotFound>
+                <PageTitle>Not found</PageTitle>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <MudText Typo="Typo.h4" Class="ml-4">Sorry, there's nothing at this address.</MudText>
+                </LayoutView>
+            </NotFound>
+        </Router>
+    </ChildContent>
+    <ErrorContent Context="ex">
+        <MudContainer Class="mt-16">
+            <MudAlert Severity="Severity.Error" Class="my-2">
+                An error has occurred: @ex.Message
+            </MudAlert>
+            <MudButton Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo(Navigation.Uri, forceLoad: true))">
+                Reload
+            </MudButton>
+        </MudContainer>
+    </ErrorContent>
+</ErrorBoundary>
+
+@code {
+    [Inject]
+    public NavigationManager Navigation { get; set; } = default!;
+}

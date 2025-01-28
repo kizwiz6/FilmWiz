@@ -1,0 +1,108 @@
+﻿@page "/search"
+@using FilmWiz.Core.Interfaces
+@using FilmWiz.Core.Models
+@inject IFilmSearchService FilmSearchService
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h3" GutterBottom="true">Film Search</MudText>
+
+    <MudGrid>
+        <MudItem xs="12">
+            <MudPaper Class="pa-4">
+                <MudTextField @bind-Value="@searchTerm"
+                              Label="Search films"
+                              Variant="Variant.Outlined"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@Icons.Material.Filled.Search"
+                              OnKeyUp="@HandleKeyPress" />
+
+                <MudButton Class="mt-3"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           OnClick="@SearchFilms"
+                           Disabled="@isLoading">
+                    @if (isLoading)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">Searching...</MudText>
+                    }
+                    else
+                    {
+                        <MudText>Search</MudText>
+                    }
+                </MudButton>
+            </MudPaper>
+        </MudItem>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <MudItem xs="12">
+                <MudAlert Severity="Severity.Error">@errorMessage</MudAlert>
+            </MudItem>
+        }
+
+        @if (films != null && films.Any())
+        {
+            <MudItem xs="12">
+                <MudGrid>
+                    @foreach (var film in films)
+                    {
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudCard>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.h6">@film.Title</MudText>
+                                    <MudText Typo="Typo.body2">Year: @film.Year</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudItem>
+        }
+        else if (!isLoading && films != null)
+        {
+            <MudItem xs="12">
+                <MudAlert Severity="Severity.Info">No films found. Try another search term.</MudAlert>
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private string searchTerm = "";
+    private IEnumerable<FilmItem>? films;
+    private bool isLoading;
+    private string? errorMessage;
+
+    private async Task SearchFilms()
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+            return;
+
+        try
+        {
+            isLoading = true;
+            errorMessage = null;
+
+            films = await FilmSearchService.SearchFilmsAsync(
+                new FilmSearchParameters { SearchTerm = searchTerm });
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Unable to search films at the moment. Please try again later.";
+            Console.WriteLine($"Error searching films: {ex}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SearchFilms();
+        }
+    }
+}
