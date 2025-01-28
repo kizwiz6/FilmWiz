@@ -1,0 +1,19 @@
+﻿@page "/search"
+@using FilmWiz.Core.Interfaces
+@inject IFilmSearchService FilmSearchService
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h3" GutterBottom="true">Film Search</MudText>
+    <MudTextField @bind-Value="@searchTerm"
+                  Label="Search films"
+                  Variant="Variant.Outlined" />
+    <MudButton OnClick="@SearchFilms">Search</MudButton>
+</MudContainer>
+
+@code {
+    private string searchTerm = "";
+    private async Task SearchFilms()
+    {
+        // TODO: Implement search
+    }
+}
