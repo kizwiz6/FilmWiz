@@ -1,7 +1,9 @@
 ﻿using FilmWiz.Core.Interfaces;
 using FilmWiz.Core.Models;
+using FilmWiz.Infrastructure.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Json;
 
 namespace FilmWiz.Infrastructure.Services
 {
@@ -22,11 +24,34 @@ namespace FilmWiz.Infrastructure.Services
                 ?? throw new InvalidOperationException("OMDb API key not found");
             _httpClient.BaseAddress = new Uri("https://www.omdbapi.com/");
         }
-        public Task<IEnumerable<FilmItem>> SearchFilmsAsync(
+        public async Task<IEnumerable<FilmItem>> SearchFilmsAsync(
             FilmSearchParameters parameters,
             CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _logger.LogInformation("Searching for films with term: {SearchTerm}",
+                    parameters.SearchTerm);
+
+                var query = $"?apikey={_apiKey}&s={Uri.EscapeDataString(parameters.SearchTerm)}";
+                var response = await _httpClient.GetFromJsonAsync<OmdbSearchResponse>(
+                    query, cancellationToken);
+
+                return response?.Search?.Select(MapToFilmItem) ?? Enumerable.Empty<FilmItem>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error searching for films");
+                throw;
+            }
         }
+
+        private static FilmItem MapToFilmItem(OmdbSearchItem item) =>
+            new()
+            {
+                Title = item.Title,
+                Year = item.Year,
+                ImdbId = item.ImdbId
+            };
     }
 }
