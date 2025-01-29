@@ -15,14 +15,6 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false);
 // Register MudBlazor services
 builder.Services.AddMudServices();
 
-// Register HttpClient for OMDb API
-builder.Services.AddScoped<IFilmSearchService>(sp =>
-{
-    var client = new HttpClient { BaseAddress = new Uri("https://www.omdbapi.com/") };
-    var logger = sp.GetRequiredService<ILogger<OmdbFilmSearchService>>();
-    return new OmdbFilmSearchService(client, builder.Configuration, logger);
-});
-
 // Register our film search service
 builder.Services.AddScoped<IFilmSearchService>(sp =>
 {
@@ -36,7 +28,7 @@ builder.Services.AddScoped<IFilmSearchService>(sp =>
 builder.Services.AddLogging();
 
 // Configure API key
-builder.Services.AddScoped<IConfiguration>(sp =>
+builder.Services.AddSingleton<IConfiguration>(sp =>
 {
     var config = new ConfigurationBuilder()
         .AddInMemoryCollection(new Dictionary<string, string>
